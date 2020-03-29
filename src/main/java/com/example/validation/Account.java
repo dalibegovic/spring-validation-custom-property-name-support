@@ -1,4 +1,4 @@
-package com.example.springvalidationcustompropertynamesupport;
+package com.example.validation;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

@@ -1,4 +1,4 @@
-package com.example.springvalidationcustompropertynamesupport;
+package com.example.validation;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

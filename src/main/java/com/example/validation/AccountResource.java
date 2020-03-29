@@ -1,4 +1,4 @@
-package com.example.springvalidationcustompropertynamesupport;
+package com.example.validation;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
