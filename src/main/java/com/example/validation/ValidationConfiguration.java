@@ -12,6 +12,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
+import java.util.function.Consumer;
+
 @Configuration
 public class ValidationConfiguration {
 	@Bean
@@ -27,7 +29,7 @@ public class ValidationConfiguration {
 		}
 
 		@Override
-		protected void postProcessConfiguration(javax.validation.Configuration<?> configuration) {
+		protected void postProcessConfiguration(jakarta.validation.Configuration<?> configuration) {
 			HibernateValidatorConfiguration hibernateValidatorConfiguration = (HibernateValidatorConfiguration) configuration;
 			hibernateValidatorConfiguration.propertyNodeNameProvider(
 				new ValidationConfiguration.JacksonPropertyNodeNameProvider(objectMapper));
