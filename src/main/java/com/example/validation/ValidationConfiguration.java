@@ -12,60 +12,61 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
-import java.util.function.Consumer;
-
 @Configuration
 public class ValidationConfiguration {
-	@Bean
-	public LocalValidatorFactoryBean localValidatorFactoryBean(ObjectMapper objectMapper) {
-		return new CustomLocalValidatorFactoryBean(objectMapper);
-	}
 
-	private static class CustomLocalValidatorFactoryBean extends LocalValidatorFactoryBean {
-		private final ObjectMapper objectMapper;
+  @Bean
+  public LocalValidatorFactoryBean localValidatorFactoryBean(ObjectMapper objectMapper) {
+    return new CustomLocalValidatorFactoryBean(objectMapper);
+  }
 
-		public CustomLocalValidatorFactoryBean(ObjectMapper objectMapper) {
-			this.objectMapper = objectMapper;
-		}
+  private static class CustomLocalValidatorFactoryBean extends LocalValidatorFactoryBean {
 
-		@Override
-		protected void postProcessConfiguration(jakarta.validation.Configuration<?> configuration) {
-			HibernateValidatorConfiguration hibernateValidatorConfiguration = (HibernateValidatorConfiguration) configuration;
-			hibernateValidatorConfiguration.propertyNodeNameProvider(
-				new ValidationConfiguration.JacksonPropertyNodeNameProvider(objectMapper));
-		}
-	}
+    private final ObjectMapper objectMapper;
 
-	private static class JacksonPropertyNodeNameProvider implements PropertyNodeNameProvider {
-		private final ObjectMapper objectMapper;
+    public CustomLocalValidatorFactoryBean(ObjectMapper objectMapper) {
+      this.objectMapper = objectMapper;
+    }
 
-		public JacksonPropertyNodeNameProvider(ObjectMapper objectMapper) {
-			this.objectMapper = objectMapper;
-		}
+    @Override
+    protected void postProcessConfiguration(jakarta.validation.Configuration<?> configuration) {
+      HibernateValidatorConfiguration hibernateValidatorConfiguration = (HibernateValidatorConfiguration) configuration;
+      hibernateValidatorConfiguration.propertyNodeNameProvider(
+          new ValidationConfiguration.JacksonPropertyNodeNameProvider(objectMapper));
+    }
+  }
 
-		@Override
-		public String getName(Property property) {
-			if (property instanceof JavaBeanProperty) {
-				return getJavaBeanPropertyName((JavaBeanProperty) property);
-			}
+  private static class JacksonPropertyNodeNameProvider implements PropertyNodeNameProvider {
 
-			return getDefaultName(property);
-		}
+    private final ObjectMapper objectMapper;
 
-		private String getJavaBeanPropertyName(JavaBeanProperty property) {
-			JavaType type = objectMapper.constructType(property.getDeclaringClass());
-			BeanDescription desc = objectMapper.getSerializationConfig().introspect(type);
+    public JacksonPropertyNodeNameProvider(ObjectMapper objectMapper) {
+      this.objectMapper = objectMapper;
+    }
 
-			return desc.findProperties()
-				.stream()
-				.filter(prop -> prop.getInternalName().equals(property.getName()))
-				.map(BeanPropertyDefinition::getName)
-				.findFirst()
-				.orElse(property.getName());
-		}
+    @Override
+    public String getName(Property property) {
+      if (property instanceof JavaBeanProperty) {
+        return getJavaBeanPropertyName((JavaBeanProperty) property);
+      }
 
-		private String getDefaultName(Property property) {
-			return property.getName();
-		}
-	}
+      return getDefaultName(property);
+    }
+
+    private String getJavaBeanPropertyName(JavaBeanProperty property) {
+      JavaType type = objectMapper.constructType(property.getDeclaringClass());
+      BeanDescription desc = objectMapper.getSerializationConfig().introspect(type);
+
+      return desc.findProperties()
+          .stream()
+          .filter(prop -> prop.getInternalName().equals(property.getName()))
+          .map(BeanPropertyDefinition::getName)
+          .findFirst()
+          .orElse(property.getName());
+    }
+
+    private String getDefaultName(Property property) {
+      return property.getName();
+    }
+  }
 }

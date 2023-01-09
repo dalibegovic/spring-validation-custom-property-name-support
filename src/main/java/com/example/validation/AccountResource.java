@@ -9,8 +9,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class AccountResource {
-	@PostMapping("/account")
-	public ResponseEntity<Void> create(@Valid @RequestBody Account account) {
-		return ResponseEntity.ok().build();
-	}
+
+  @PostMapping("/account")
+  public ResponseEntity<Void> create(@Valid @RequestBody Account account) {
+    return ResponseEntity.ok().build();
+  }
 }

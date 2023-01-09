@@ -6,35 +6,37 @@ import jakarta.validation.constraints.NotEmpty;
 
 
 public class Account {
-	@Valid
-	@JsonProperty("personal_data")
-	private PersonalData personalData;
 
-	public Account(@JsonProperty("personal_data") PersonalData personalData) {
-		this.personalData = personalData;
-	}
+  @Valid
+  @JsonProperty("personal_data")
+  private PersonalData personalData;
 
-	public PersonalData getPersonalData() {
-		return personalData;
-	}
+  public Account(@JsonProperty("personal_data") PersonalData personalData) {
+    this.personalData = personalData;
+  }
 
-	public void setPersonalData(PersonalData personalData) {
-		this.personalData = personalData;
-	}
+  public PersonalData getPersonalData() {
+    return personalData;
+  }
 
-	public static class PersonalData {
-		@NotEmpty
-		private String firstName;
+  public void setPersonalData(PersonalData personalData) {
+    this.personalData = personalData;
+  }
 
-		public PersonalData(@JsonProperty(value = "first_name") String firstName) {
-		}
+  public static class PersonalData {
 
-		public String getFirstName() {
-			return firstName;
-		}
+    @NotEmpty
+    private String firstName;
 
-		public void setFirstName(String firstName) {
-			this.firstName = firstName;
-		}
-	}
+    public PersonalData(@JsonProperty(value = "first_name") String firstName) {
+    }
+
+    public String getFirstName() {
+      return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+      this.firstName = firstName;
+    }
+  }
 }

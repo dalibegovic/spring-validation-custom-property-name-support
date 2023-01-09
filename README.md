@@ -8,3 +8,8 @@ See: https://github.com/spring-projects/spring-framework/issues/24811 for more d
 
 There is one test that is failing with an exception - this is expected behaviour as this test is
 used to show how Spring will react to this HV feature.
+
+## Code style
+
+Google code style is used to format the code in this project. The code formatter for popular IDE-s
+can be found here: https://github.com/google/styleguide.
