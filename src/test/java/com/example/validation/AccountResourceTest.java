@@ -26,7 +26,13 @@ class AccountResourceTest {
   void createAccountFirstNameMustBeSet() throws Exception {
     mockMvc.perform(post("/account")
             .contentType(MediaType.APPLICATION_JSON)
-            .content("{\"personal_data\" : {\"firstName\" : \"\"}}"))
+            .content("""
+                {
+                  "personal_data": {
+                    "first_name": ""
+                  }
+                }
+                """))
         .andExpect(status().isBadRequest());
   }
 }
